@@ -1,4 +1,5 @@
 /* See LICENSE file for copyright and license details. */
+/* My personal config */
 
 /*
  * appearance
@@ -7,7 +8,7 @@
  * borderperc: percentage of cell width to use as a border
  *     0 = no border, 100 = border width is same as cell width
  */
-static char *font = "Liberation Mono:pixelsize=12:antialias=true:autohint=true";
+static char *font = "DejaVu Sans Mono:pixelsize=16:antialias=true:autohint=true";
 static int borderpx = 2;
 static int borderperc = 20;
 
