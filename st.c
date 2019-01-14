@@ -98,10 +98,10 @@ typedef struct {
 	int snap;
 	/*
 	 * Selection variables:
-	 * nb – normalized coordinates of the beginning of the selection
-	 * ne – normalized coordinates of the end of the selection
-	 * ob – original coordinates of the beginning of the selection
-	 * oe – original coordinates of the end of the selection
+	 * nb  normalized coordinates of the beginning of the selection
+	 * ne  normalized coordinates of the end of the selection
+	 * ob  original coordinates of the beginning of the selection
+	 * oe  original coordinates of the end of the selection
 	 */
 	struct {
 		int x, y;
@@ -1256,14 +1256,14 @@ void
 tsetchar(Rune u, Glyph *attr, int x, int y)
 {
 	static char *vt100_0[62] = { /* 0x41 - 0x7e */
-		"↑", "↓", "→", "←", "█", "▚", "☃", /* A - G */
+		"", "", "", "", "", "", "", /* A - G */
 		0, 0, 0, 0, 0, 0, 0, 0, /* H - O */
 		0, 0, 0, 0, 0, 0, 0, 0, /* P - W */
 		0, 0, 0, 0, 0, 0, 0, " ", /* X - _ */
-		"◆", "▒", "␉", "␌", "␍", "␊", "°", "±", /* ` - g */
-		"␤", "␋", "┘", "┐", "┌", "└", "┼", "⎺", /* h - o */
-		"⎻", "─", "⎼", "⎽", "├", "┤", "┴", "┬", /* p - w */
-		"│", "≤", "≥", "π", "≠", "£", "·", /* x - ~ */
+		"", "", "", "", "", "", "", "", /* ` - g */
+		"", "", "", "", "", "", "", "", /* h - o */
+		"", "", "", "", "", "", "", "", /* p - w */
+		"", "", "", "", "", "", "", /* x - ~ */
 	};
 
 	/*
@@ -1844,7 +1844,7 @@ csihandle(void)
 	case 'm': /* SGR -- Terminal attribute (color) */
 		tsetattr(csiescseq.arg, csiescseq.narg);
 		break;
-	case 'n': /* DSR – Device Status Report (cursor position) */
+	case 'n': /* DSR  Device Status Report (cursor position) */
 		if (csiescseq.arg[0] == 6) {
 			len = snprintf(buf, sizeof(buf),"\033[%i;%iR",
 					term.c.y+1, term.c.x+1);
@@ -2825,7 +2825,7 @@ void set_notifmode(int type, KeySym ksym) {
         col = term.col, bot = term.bot;
         g = xmalloc(col * sizeof(Glyph));
         memcpy(g, term.line[bot], col * sizeof(Glyph));
-    
+
     }
     else if ( ksym == -2 )
         memcpy(term.line[bot], g, col * sizeof(Glyph));
@@ -2878,7 +2878,7 @@ void search(int selectsearch_mode, Rune *target, int ptarget, int incr, int type
         }
         if ( r != NULL )    break;
     }
-        
+
     if ( i != bound ) {
         term.c.y = i / term.col, term.c.x = i % term.col;
         select_or_drawcursor(selectsearch_mode, type);
@@ -2892,8 +2892,8 @@ int trt_kbdselect(KeySym ksym, char *buf, int len) {
     static int sens, quant;
     static char selectsearch_mode;
     int i, bound, *xy;
-    
-    
+
+
     if ( selectsearch_mode & 2 ) {
 		if ( ksym == XK_Return ) {
 			selectsearch_mode ^= 2;
@@ -2919,7 +2919,7 @@ int trt_kbdselect(KeySym ksym, char *buf, int len) {
         if ( ksym != XK_BackSpace )
             search(selectsearch_mode, &target[0], ptarget, sens, type, &cu);
 
-        term.dirty[term.bot] = 1; 
+        term.dirty[term.bot] = 1;
         drawregion(0, term.bot, term.col, term.bot + 1);
         return 0;
     }
