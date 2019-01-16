@@ -1,5 +1,5 @@
 /* See LICENSE file for copyright and license details. */
-/* My personal config */
+/* My personal configuration */
 
 /*
  * appearance
@@ -72,14 +72,14 @@ char *termname = "st-256color";
 /*
  * spaces per tab
  *
- * When you are changing this value, don't forget to adapt the it value in
+ * When you are changing this value, don't forget to adapt the »it« value in
  * the st.info and appropriately install the st.info in the environment where
  * you use this st version.
  *
  *	it#$tabspaces,
  *
  * Secondly make sure your kernel is not expanding tabs. When running `stty
- * -a` tab0 should appear. You can tell the terminal to not expand tabs by
+ * -a` »tab0« should appear. You can tell the terminal to not expand tabs by
  *  running following command:
  *
  *	stty tabs
