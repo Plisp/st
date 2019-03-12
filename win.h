@@ -39,3 +39,4 @@ void xsetsel(char *);
 int xstartdraw(void);
 void toggle_winmode(int);
 void keyboard_select(const Arg *);
+void xximspot(int, int);
