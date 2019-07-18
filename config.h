@@ -9,8 +9,8 @@
  *     0 = no border, 100 = border width is same as cell width
  */
 static char *font = "DejaVu Sans Mono:pixelsize=16:antialias=true:autohint=true";
-static int borderpx = 2;
-static int borderperc = 20;
+static int borderpx = 3;
+static int borderperc = 85;
 
 /*
  * What program is execed by st depends of these precedence rules:
@@ -85,6 +85,9 @@ char *termname = "st-256color";
  *	stty tabs
  */
 unsigned int tabspaces = 8;
+
+/* opacity */
+float alpha = 0.85;
 
 /* Terminal colors (16 first used in escape sequence) */
 static const char *colorname[] = {
