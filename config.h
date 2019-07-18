@@ -87,9 +87,6 @@ char *termname = "st-256color";
  */
 unsigned int tabspaces = 8;
 
-/* opacity */
-float alpha = 0.85;
-
 /* Terminal colors (16 first used in escape sequence) */
 static char *colorname[] = {
              /* solarized dark */
@@ -134,7 +131,7 @@ unsigned int defaultunderline = 7;
  * 6: Bar ("|")
  * 7: Snowman ("")
  */
-static unsigned int cursorshape = 7;
+static unsigned int cursorshape = 2;
 
 /*
  * Default columns and rows numbers
