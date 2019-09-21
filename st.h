@@ -44,6 +44,7 @@ enum glyph_attribute {
 	ATTR_WRAP       = 1 << 8,
 	ATTR_WIDE       = 1 << 9,
 	ATTR_WDUMMY     = 1 << 10,
+	ATTR_BOXDRAW    = 1 << 11,
 	ATTR_BOLD_FAINT = ATTR_BOLD | ATTR_FAINT,
 };
 
@@ -133,6 +134,13 @@ void *xrealloc(void *, size_t);
 char *xstrdup(char *);
 int trt_kbdselect(KeySym, char *, int);
 
+int isboxdraw(const Glyph *);
+ushort boxdrawindex(const Glyph *);
+#ifdef XFT_VERSION
+/* only exposed to x.c, otherwise we'll need Xft.h for the types */
+void drawboxes(XftDraw *, int, int, int, int, XftColor *, const XftGlyphFontSpec *, int);
+#endif
+
 /* config.h globals */
 extern char *utmp;
 extern char *stty_args;
@@ -146,3 +154,4 @@ extern unsigned int defaultbg;
 extern MouseKey mkeys[];
 
 extern float alpha;
+extern const int boxdraw;

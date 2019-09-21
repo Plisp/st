@@ -9,9 +9,11 @@
  *     0 = no border, 100 = border width is same as cell width
  */
 static char *font =
-    "DejaVu Sans Mono:pixelsize=16:antialias=true:autohint=true";
+    "Input Mono:pixelsize=16:antialias=true:autohint=true";
 static int borderpx = 3;
 static int borderperc = 85;
+
+const int boxdraw = 1;
 
 /*
  * What program is execed by st depends of these precedence rules:
@@ -68,7 +70,7 @@ static unsigned int cursorthickness = 2;
 static int bellvolume = 0;
 
 /* default TERM value */
-char *termname = "st-256color";
+char *termname = "xterm";
 
 /*
  * spaces per tab
