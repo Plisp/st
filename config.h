@@ -14,6 +14,8 @@ static int borderpx = 3;
 static int borderperc = 85;
 static uint forcemousemod = ShiftMask;
 
+const int boxdraw = 1;
+
 /*
  * What program is execed by st depends of these precedence rules:
  * 1: program passed with -e
@@ -69,7 +71,7 @@ static unsigned int cursorthickness = 2;
 static int bellvolume = 0;
 
 /* default TERM value */
-char *termname = "st-256color";
+char *termname = "xterm";
 
 /*
  * spaces per tab
@@ -87,9 +89,6 @@ char *termname = "st-256color";
  *	stty tabs
  */
 unsigned int tabspaces = 8;
-
-/* opacity */
-float alpha = 0.85;
 
 /* Terminal colors (16 first used in escape sequence) */
 static char *colorname[] = {
