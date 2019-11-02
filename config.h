@@ -9,9 +9,10 @@
  *     0 = no border, 100 = border width is same as cell width
  */
 static char *font =
-    "DejaVu Sans Mono:pixelsize=16:antialias=true:autohint=true";
+    "Input Mono:pixelsize=16:antialias=true:autohint=true";
 static int borderpx = 3;
 static int borderperc = 85;
+static uint forcemousemod = ShiftMask;
 
 /*
  * What program is execed by st depends of these precedence rules:
@@ -134,7 +135,7 @@ unsigned int defaultunderline = 7;
  * 6: Bar ("|")
  * 7: Snowman ("")
  */
-static unsigned int cursorshape = 7;
+static unsigned int cursorshape = 2;
 
 /*
  * Default columns and rows numbers
@@ -161,15 +162,10 @@ static unsigned int defaultattr = 11;
  * Beware that overloading Button1 will disable the selection.
  */
 static MouseShortcut mshortcuts[] = {
-    /* button               mask            string */
-    {Button4, XK_NO_MOD, "\031"},
-    {Button5, XK_NO_MOD, "\005"},
-};
-
-MouseKey mkeys[] = {
-    /* button               mask            function        argument */
-    {Button4, XK_NO_MOD, kscrollup, {.i = 1}},
-    {Button5, XK_NO_MOD, kscrolldown, {.i = 1}},
+	/* mask                 button   function        argument       release */
+    {XK_ANY_MOD,           Button2, selpaste,       {.i = 0},       1 },
+    {XK_NO_MOD,             Button4, kscrollup,      {.i = 1}         },
+    {XK_NO_MOD,             Button5, kscrolldown,    {.i = 1}         },
 };
 
 /* Internal keyboard shortcuts. */
