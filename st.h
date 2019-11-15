@@ -1,5 +1,6 @@
 /* See LICENSE for license details. */
 
+#include <stdbool.h>
 #include <stdint.h>
 #include <sys/types.h>
 
@@ -10,6 +11,8 @@
 #define BETWEEN(x, a, b)	((a) <= (x) && (x) <= (b))
 #define DIVCEIL(n, d)		(((n) + ((d) - 1)) / (d))
 #define DEFAULT(a, b)		(a) = (a) ? (a) : (b)
+#define INTERVAL(x, a, b)		(x) < (a) ? (a) : (x) > (b) ? (b) : (x)
+#define INTERVAL_DIFF(x, a, b)		(x) < (a) ? (x) - (a) : (x) > (b) ? (x) - (b) : 0
 #define LIMIT(x, a, b)		(x) = (x) < (a) ? (a) : (x) > (b) ? (b) : (x)
 #define ATTRCMP(a, b)		((a).mode != (b).mode || (a).fg != (b).fg || \
 				(a).bg != (b).bg)
@@ -19,17 +22,6 @@
 
 #define TRUECOLOR(r,g,b)	(1 << 24 | (r) << 16 | (g) << 8 | (b))
 #define IS_TRUECOL(x)		(1 << 24 & (x))
-
-enum term_mode {
-	MODE_WRAP        = 1 << 0,
-	MODE_INSERT      = 1 << 1,
-	MODE_ALTSCREEN   = 1 << 2,
-	MODE_CRLF        = 1 << 3,
-	MODE_ECHO        = 1 << 4,
-	MODE_PRINT       = 1 << 5,
-	MODE_UTF8        = 1 << 6,
-	MODE_SIXEL       = 1 << 7,
-};
 
 enum glyph_attribute {
 	ATTR_NULL       = 0,
@@ -46,6 +38,8 @@ enum glyph_attribute {
 	ATTR_WDUMMY     = 1 << 10,
 	ATTR_BOXDRAW    = 1 << 11,
 	ATTR_BOLD_FAINT = ATTR_BOLD | ATTR_FAINT,
+	ATTR_HIGHLIGHT  = 1 << 12 | ATTR_UNDERLINE,
+	ATTR_CURRENT    = 1 << 13,
 };
 
 enum selection_mode {
@@ -94,15 +88,23 @@ void redraw(void);
 void draw(void);
 
 void iso14755(const Arg *);
-void kscrolldown(const Arg *);
-void kscrollup(const Arg *);
+void newterm(const Arg *);
 void printscreen(const Arg *);
 void printsel(const Arg *);
 void sendbreak(const Arg *);
 void toggleprinter(const Arg *);
-void copyurl(const Arg *);
-
+ 
+int highlighted(int, int);
+int currentLine(int, int);
+void kscrolldown(const Arg *);
+void kscrollup(const Arg *);
+void kpressNormalMode(char const * ksym, uint32_t len, bool esc, bool enter, bool backspace);
+void normalMode(Arg const *);
+void onNormalModeStart();
+void onNormalModeStop();
+ 
 int tattrset(int);
+int tisaltscr(void);
 void tnew(int, int);
 void tresize(int, int);
 void tsetdirtattr(int);
@@ -116,8 +118,10 @@ void resettitle(void);
 
 void selclear(void);
 void selinit(void);
-void selstart(int, int, int);
-void selextend(int, int, int, int);
+void selstart(int, int, int, int);
+void xselstart(int, int, int);
+void selextend(int, int, int, int, int);
+void xselextend(int, int, int, int);
 int selected(int, int);
 char *getsel(void);
 
@@ -126,14 +130,16 @@ size_t utf8encode(Rune, char *);
 void *xmalloc(size_t);
 void *xrealloc(void *, size_t);
 char *xstrdup(char *);
-int trt_kbdselect(KeySym, char *, int);
 
-int isboxdraw(const Glyph *);
+int isboxdraw(Rune);
 ushort boxdrawindex(const Glyph *);
 #ifdef XFT_VERSION
 /* only exposed to x.c, otherwise we'll need Xft.h for the types */
-void drawboxes(XftDraw *, int, int, int, int, XftColor *, const XftGlyphFontSpec *, int);
+void boxdraw_xinit(Display *, Colormap, XftDraw *, Visual *);
+void drawboxes(int, int, int, int, XftColor *, XftColor *, const XftGlyphFontSpec *, int);
 #endif
+
+
 
 /* config.h globals */
 extern char *utmp;
@@ -142,9 +148,18 @@ extern char *vtiden;
 extern wchar_t *worddelimiters;
 extern int allowaltscreen;
 extern char *termname;
+extern int usealtcolors;
 extern unsigned int tabspaces;
 extern unsigned int defaultfg;
 extern unsigned int defaultbg;
+extern const int boxdraw, boxdraw_bold, boxdraw_braille;
+extern char wordDelimSmall[];
+extern char wordDelimLarge[];
 
-extern float alpha;
-extern const int boxdraw;
+typedef struct NormalModeShortcuts {
+	char key;
+	char *value;
+} NormalModeShortcuts;
+
+extern NormalModeShortcuts normalModeShortcuts[];
+extern size_t const amountNormalModeShortcuts;
