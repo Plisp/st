@@ -5,8 +5,8 @@
  *
  * font: see http://freedesktop.org/software/fontconfig/fontconfig-user.html
  */
-static char *font = "Liberation Mono:pixelsize=12:antialias=true:autohint=true";
-static int borderpx = 2;
+static char *font = "Input Mono:pixelsize=16:antialias=true:autohint=true";
+static int borderpx = 10;
 
 /*
  * What program is execed by st depends of these precedence rules:
@@ -154,8 +154,8 @@ static const char *altcolorname[] = {
  */
 unsigned int defaultfg = 12;
 unsigned int defaultbg = 8;
-static unsigned int defaultcs = 14;
-static unsigned int defaultrcs = 15;
+static unsigned int defaultcs = 2;
+static unsigned int defaultrcs = 1;
 
 /*
  * Default shape of cursor
